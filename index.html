@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>일반동사의 과거형 만드는 법 (음성 지원)</title>
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 10mm 12mm;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Pretendard', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            margin: 0;
+            padding: 20px 0;
+            background-color: #f1f5f9;
+            color: #1e293b;
+        }
+
+        /* 컨트롤 바 (인쇄 시 숨김) */
+        .control-bar {
+            width: 210mm;
+            margin: 0 auto 16px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .control-bar-info {
+            font-size: 14px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-print {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-print:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* A4 용지 컨테이너 */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 12mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 21px;
+            margin-top: 0;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+            color: #0f172a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        th, td {
+            border: 1px solid #334155;
+            padding: 8px 6px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #f8fafc;
+            font-weight: bold;
+        }
+
+        .category-col {
+            width: 11%;
+            font-weight: bold;
+            background-color: #f8fafc;
+            font-size: 14px;
+        }
+
+        .condition-col {
+            width: 22%;
+            background-color: #f8fafc;
+        }
+
+        .rule-col {
+            width: 20%;
+        }
+
+        .example-col {
+            text-align: left;
+            padding-left: 12px;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* 붉은색 강조 글자 */
+        .red {
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        .arrow {
+            margin: 0 4px;
+            color: #64748b;
+        }
+
+        /* 클릭 가능한 단어 스타일 */
+        .speakable {
+            cursor: pointer;
+            display: inline-block;
+            padding: 1px 4px;
+            border-radius: 4px;
+            transition: all 0.15s ease-in-out;
+            user-select: none;
+        }
+
+        .speakable:hover {
+            background-color: #eff6ff;
+            outline: 1px solid #93c5fd;
+        }
+
+        /* 발음 재생 중 피드백 클래스 */
+        .speakable.playing {
+            background-color: #fef08a !important;
+            color: #000 !important;
+            transform: scale(1.08);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            outline: 2px solid #eab308;
+        }
+
+        /* FLEX 레이아웃용 유틸리티 */
+        .word-grid-col2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px 16px;
+            max-width: 320px;
+        }
+
+        .word-grid-col3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px 12px;
+            width: 100%;
+        }
+
+        /* 인쇄 스타일 대응 (@media print) */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .control-bar {
+                display: none !important;
+            }
+
+            .page {
+                width: 100%;
+                min-height: auto;
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .speakable {
+                cursor: default;
+                padding: 0;
+            }
+
+            .speakable:hover {
+                background-color: transparent;
+                outline: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="control-bar">
+    <div class="control-bar-info">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <span>영단어를 <strong>클릭</strong>하면 원어민 발음을 들을 수 있습니다.</span>
+    </div>
+    <button class="btn-print" onclick="window.print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        A4 인쇄하기
+    </button>
+</div>
+
+<div class="page">
+    <h1>★ 일반동사의 과거형 만드는 법</h1>
+
+    <table>
+        <tbody>
+            <!-- 규칙 변화 -->
+            <tr>
+                <td rowspan="4" class="category-col">규칙<br>변화</td>
+                <td class="condition-col">대부분의 동사</td>
+                <td class="rule-col">동사원형 + -<span class="red">ed</span></td>
+                <td class="example-col">
+                    <div style="line-height: 1.8;">
+                        <span class="speakable" data-word="watched">watch<span class="red">ed</span></span> &nbsp; 
+                        <span class="speakable" data-word="talked">talk<span class="red">ed</span></span> &nbsp; 
+                        <span class="speakable" data-word="listened">listen<span class="red">ed</span></span> &nbsp; 
+                        <span class="speakable" data-word="walked">walk<span class="red">ed</span></span><br>
+                        <span class="speakable" data-word="wanted">want<span class="red">ed</span></span> &nbsp; 
+                        <span class="speakable" data-word="started">start<span class="red">ed</span></span> &nbsp; 
+                        <span class="speakable" data-word="ended">end<span class="red">ed</span></span> &nbsp; 
+                        <span class="speakable" data-word="rained">rain<span class="red">ed</span></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="condition-col">[자음 + -e]로<br>끝나는 동사</td>
+                <td class="rule-col">동사원형 + -<span class="red">d</span></td>
+                <td class="example-col">
+                    <div style="line-height: 1.8;">
+                        <span class="speakable" data-word="lived">live<span class="red">d</span></span> &nbsp; 
+                        <span class="speakable" data-word="moved">move<span class="red">d</span></span> &nbsp; 
+                        <span class="speakable" data-word="liked">like<span class="red">d</span></span> &nbsp; 
+                        <span class="speakable" data-word="loved">love<span class="red">d</span></span> &nbsp; 
+                        <span class="speakable" data-word="smiled">smile<span class="red">d</span></span><br>
+                        <span class="speakable" data-word="danced">dance<span class="red">d</span></span> &nbsp; 
+                        <span class="speakable" data-word="invited">invite<span class="red">d</span></span> &nbsp; 
+                        <span class="speakable" data-word="changed">change<span class="red">d</span></span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="condition-col">[자음 + -y]로<br>끝나는 동사</td>
+                <td class="rule-col">y를 <span class="red">i</span>로 고치고<br>+ -<span class="red">ed</span></td>
+                <td class="example-col">
+                    <div class="word-grid-col2">
+                        <div><span class="speakable" data-word="cry">cry</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="cried">cr<span class="red">ied</span></span></div>
+                        <div><span class="speakable" data-word="study">study</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="studied">stud<span class="red">ied</span></span></div>
+                        <div><span class="speakable" data-word="try">try</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="tried">tr<span class="red">ied</span></span></div>
+                        <div><span class="speakable" data-word="worry">worry</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="worried">worr<span class="red">ied</span></span></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="condition-col">[단모음 + 단자음]으로<br>끝나는 동사</td>
+                <td class="rule-col">자음은 한 번 더<br>쓰고 + -<span class="red">ed</span></td>
+                <td class="example-col">
+                    <div class="word-grid-col2">
+                        <div><span class="speakable" data-word="stop">stop</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="stopped">stop<span class="red">ped</span></span></div>
+                        <div><span class="speakable" data-word="plan">plan</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="planned">plan<span class="red">ned</span></span></div>
+                        <div><span class="speakable" data-word="chat">chat</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="chatted">chat<span class="red">ted</span></span></div>
+                        <div><span class="speakable" data-word="drop">drop</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="dropped">drop<span class="red">ped</span></span></div>
+                    </div>
+                </td>
+            </tr>
+
+            <!-- 불규칙 변화 -->
+            <tr>
+                <td rowspan="2" class="category-col">불규칙<br>변화</td>
+                <td class="condition-col">현재형과<br>과거형이<br>같은 동사</td>
+                <td colspan="2" class="example-col" style="padding: 10px 12px;">
+                    <div style="display: flex; gap: 48px;">
+                        <div>
+                            <span class="speakable" data-word="put">put</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="put">put</span><br>
+                            <span class="speakable" data-word="hit">hit</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="hit">hit</span>
+                        </div>
+                        <div>
+                            <span class="speakable" data-word="cut">cut</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="cut">cut</span><br>
+                            <span class="speakable" data-word="read">read</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="read">read</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="condition-col">현재형과<br>과거형이<br>완전히 다른<br>동사</td>
+                <td colspan="2" class="example-col" style="padding: 10px 12px;">
+                    <div class="word-grid-col3">
+                        <div>
+                            <span class="speakable" data-word="do">do</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="did">did</span><br>
+                            <span class="speakable" data-word="go">go</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="went">went</span><br>
+                            <span class="speakable" data-word="eat">eat</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="ate">ate</span><br>
+                            <span class="speakable" data-word="run">run</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="ran">ran</span><br>
+                            <span class="speakable" data-word="meet">meet</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="met">met</span><br>
+                            <span class="speakable" data-word="write">write</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="wrote">wrote</span><br>
+                            <span class="speakable" data-word="bring">bring</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="brought">brought</span>
+                        </div>
+                        <div>
+                            <span class="speakable" data-word="have">have</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="had">had</span><br>
+                            <span class="speakable" data-word="tell">tell</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="told">told</span><br>
+                            <span class="speakable" data-word="get">get</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="got">got</span><br>
+                            <span class="speakable" data-word="see">see</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="saw">saw</span><br>
+                            <span class="speakable" data-word="drink">drink</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="drank">drank</span><br>
+                            <span class="speakable" data-word="give">give</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="gave">gave</span><br>
+                            <span class="speakable" data-word="teach">teach</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="taught">taught</span>
+                        </div>
+                        <div>
+                            <span class="speakable" data-word="come">come</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="came">came</span><br>
+                            <span class="speakable" data-word="sleep">sleep</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="slept">slept</span><br>
+                            <span class="speakable" data-word="speak">speak</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="spoke">spoke</span><br>
+                            <span class="speakable" data-word="make">make</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="made">made</span><br>
+                            <span class="speakable" data-word="take">take</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="took">took</span><br>
+                            <span class="speakable" data-word="hear">hear</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="heard">heard</span><br>
+                            <span class="speakable" data-word="buy">buy</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="bought">bought</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const synth = window.speechSynthesis;
+        let voices = [];
+
+        // 사용 가능한 Voice 목록 받아오기
+        function loadVoices() {
+            voices = synth.getVoices().filter(v => v.lang.includes('en'));
+        }
+
+        loadVoices();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        // 단어 발음 재생 함수
+        function speakWord(text, element) {
+            if (!('speechSynthesis' in window)) {
+                alert('현재 브라우저가 음성 재생(Speech Synthesis)을 지원하지 않습니다.');
+                return;
+            }
+
+            // 이전 음성 중단
+            synth.cancel();
+
+            // 활성 하이라이트 클래스 제거
+            document.querySelectorAll('.speakable.playing').forEach(el => {
+                el.classList.remove('playing');
+            });
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85; // 조금 또박또박하게 발음
+
+            // 선호 보이스 지정 (US / GB)
+            if (voices.length > 0) {
+                const usVoice = voices.find(v => v.lang === 'en-US') || voices[0];
+                utterance.voice = usVoice;
+            }
+
+            // 시각적 피드백 시작
+            element.classList.add('playing');
+
+            // 음성 종료 시 시각적 피드백 제거
+            utterance.onend = () => {
+                element.classList.remove('playing');
+            };
+
+            utterance.onerror = () => {
+                element.classList.remove('playing');
+            };
+
+            synth.speak(utterance);
+        }
+
+        // 모든 클릭 가능 단어에 이벤트 리스너 등록
+        const speakableElements = document.querySelectorAll('.speakable');
+        speakableElements.forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const word = el.getAttribute('data-word') || el.innerText.trim();
+                speakWord(word, el);
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
