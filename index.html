@@ -3,408 +3,363 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>일반동사의 과거형 만드는 법 (음성 지원)</title>
+    <title>일반동사의 과거형 만드는 법</title>
     <style>
         @page {
             size: A4 portrait;
-            margin: 10mm 12mm;
+            margin: 15mm;
         }
 
         * {
             box-sizing: border-box;
-            -webkit-print-color-adjust: exact;
-            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
         body {
-            font-family: 'Pretendard', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
             margin: 0;
-            padding: 20px 0;
-            background-color: #f1f5f9;
-            color: #1e293b;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
         }
 
-        /* 컨트롤 바 (인쇄 시 숨김) */
-        .control-bar {
-            width: 210mm;
-            margin: 0 auto 16px auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #ffffff;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-
-        .control-bar-info {
-            font-size: 14px;
-            color: #64748b;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-print {
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: background-color 0.2s;
-        }
-
-        .btn-print:hover {
-            background-color: #1d4ed8;
-        }
-
-        /* A4 용지 컨테이너 */
-        .page {
-            width: 210mm;
-            min-height: 297mm;
-            padding: 15mm 12mm;
+        .page-container {
+            max-width: 210mm;
             margin: 0 auto;
             background: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-radius: 2px;
-            position: relative;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #2b3a4a;
+            padding-bottom: 15px;
         }
 
         h1 {
-            text-align: center;
-            font-size: 21px;
-            margin-top: 0;
-            margin-bottom: 18px;
-            letter-spacing: -0.5px;
-            color: #0f172a;
+            font-size: 22px;
+            color: #1a2530;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #555;
+            background-color: #f0f4f8;
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
-            line-height: 1.45;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-top: 10px;
         }
 
         th, td {
-            border: 1px solid #334155;
-            padding: 8px 6px;
-            text-align: center;
+            border: 1px solid #c0c6cc;
+            padding: 6px 8px;
             vertical-align: middle;
         }
 
         th {
-            background-color: #f8fafc;
+            background-color: #e9ecef;
+            color: #212529;
             font-weight: bold;
+            text-align: center;
         }
 
-        .category-col {
-            width: 11%;
+        .col-category {
+            width: 10%;
+            text-align: center;
             font-weight: bold;
-            background-color: #f8fafc;
-            font-size: 14px;
+            background-color: #f8f9fa;
         }
 
-        .condition-col {
+        .col-condition {
             width: 22%;
-            background-color: #f8fafc;
+            background-color: #ffffff;
         }
 
-        .rule-col {
-            width: 20%;
+        .col-rule {
+            width: 18%;
+            text-align: center;
+            background-color: #ffffff;
         }
 
-        .example-col {
-            text-align: left;
-            padding-left: 12px;
-            font-family: 'Segoe UI', Roboto, sans-serif;
+        .col-examples {
+            background-color: #ffffff;
         }
 
-        /* 붉은색 강조 글자 */
-        .red {
-            color: #dc2626;
-            font-weight: 700;
+        .highlight {
+            color: #d9534f;
+            font-weight: bold;
+        }
+
+        .highlight-blue {
+            color: #0275d8;
+            font-weight: bold;
         }
 
         .arrow {
-            margin: 0 4px;
-            color: #64748b;
+            color: #e03e2d;
+            font-weight: bold;
+            margin: 0 2px;
         }
 
-        /* 클릭 가능한 단어 스타일 */
-        .speakable {
-            cursor: pointer;
-            display: inline-block;
-            padding: 1px 4px;
+        .word-item {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 3px;
+            margin: 2px 3px;
+            padding: 2px 5px;
             border-radius: 4px;
-            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+            transition: all 0.2s ease;
             user-select: none;
+            background-color: #f1f3f5;
         }
 
-        .speakable:hover {
-            background-color: #eff6ff;
-            outline: 1px solid #93c5fd;
+        .word-item:hover {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            transform: translateY(-1px);
         }
 
-        /* 발음 재생 중 피드백 클래스 */
-        .speakable.playing {
-            background-color: #fef08a !important;
-            color: #000 !important;
-            transform: scale(1.08);
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-            outline: 2px solid #eab308;
+        .word-item.speaking {
+            background-color: #ffe082;
+            color: #000;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
         }
 
-        /* FLEX 레이아웃용 유틸리티 */
-        .word-grid-col2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 4px 16px;
-            max-width: 320px;
+        .eng {
+            font-weight: 600;
+            font-size: 13px;
         }
 
-        .word-grid-col3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 4px 12px;
+        .kor {
+            font-size: 11px;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .word-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            align-items: center;
+        }
+
+        .pair {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 8px;
+            margin-bottom: 4px;
+        }
+
+        .btn-print {
+            display: block;
             width: 100%;
+            max-width: 200px;
+            margin: 20px auto 0;
+            padding: 10px 18px;
+            background-color: #2b3a4a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
         }
 
-        /* 인쇄 스타일 대응 (@media print) */
+        .btn-print:hover {
+            background-color: #1a2530;
+        }
+
         @media print {
             body {
+                background: white;
+                padding: 0;
+            }
+            .page-container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .btn-print {
+                display: none;
+            }
+            .subtitle {
                 background: none;
                 padding: 0;
             }
-
-            .control-bar {
-                display: none !important;
-            }
-
-            .page {
-                width: 100%;
-                min-height: auto;
-                box-shadow: none;
-                padding: 0;
-                margin: 0;
-                border-radius: 0;
-            }
-
-            .speakable {
-                cursor: default;
-                padding: 0;
-            }
-
-            .speakable:hover {
-                background-color: transparent;
-                outline: none;
+            .word-item {
+                background: none;
             }
         }
     </style>
 </head>
 <body>
 
-<div class="control-bar">
-    <div class="control-bar-info">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-        <span>영단어를 <strong>클릭</strong>하면 원어민 발음을 들을 수 있습니다.</span>
+<div class="page-container">
+    <div class="header-section">
+        <h1>★ 일반동사의 과거형 만드는 법</h1>
+        <div class="subtitle">🔊 영어 단어를 클릭하면 미국식 원어민 발음을 들을 수 있습니다.</div>
     </div>
-    <button class="btn-print" onclick="window.print()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-        A4 인쇄하기
-    </button>
-</div>
-
-<div class="page">
-    <h1>★ 일반동사의 과거형 만드는 법</h1>
 
     <table>
         <tbody>
-            <!-- 규칙 변화 -->
+            <!-- 규칙 변화 1 -->
             <tr>
-                <td rowspan="4" class="category-col">규칙<br>변화</td>
-                <td class="condition-col">대부분의 동사</td>
-                <td class="rule-col">동사원형 + -<span class="red">ed</span></td>
-                <td class="example-col">
-                    <div style="line-height: 1.8;">
-                        <span class="speakable" data-word="watched">watch<span class="red">ed</span></span> &nbsp; 
-                        <span class="speakable" data-word="talked">talk<span class="red">ed</span></span> &nbsp; 
-                        <span class="speakable" data-word="listened">listen<span class="red">ed</span></span> &nbsp; 
-                        <span class="speakable" data-word="walked">walk<span class="red">ed</span></span><br>
-                        <span class="speakable" data-word="wanted">want<span class="red">ed</span></span> &nbsp; 
-                        <span class="speakable" data-word="started">start<span class="red">ed</span></span> &nbsp; 
-                        <span class="speakable" data-word="ended">end<span class="red">ed</span></span> &nbsp; 
-                        <span class="speakable" data-word="rained">rain<span class="red">ed</span></span>
+                <td rowspan="4" class="col-category">규칙<br>변화</td>
+                <td class="col-condition">대부분의 동사</td>
+                <td class="col-rule">동사원형 + <span class="highlight">-ed</span></td>
+                <td colspan="2" class="col-examples">
+                    <div class="word-group">
+                        <span class="word-item" onclick="speak('watched')"><span class="eng">watched</span><span class="kor">(왓치트)</span></span>
+                        <span class="word-item" onclick="speak('talked')"><span class="eng">talked</span><span class="kor">(토크트)</span></span>
+                        <span class="word-item" onclick="speak('listened')"><span class="eng">listened</span><span class="kor">(리스ンド)</span></span>
+                        <span class="word-item" onclick="speak('walked')"><span class="eng">walked</span><span class="kor">(워크트)</span></span>
+                        <span class="word-item" onclick="speak('wanted')"><span class="eng">wanted</span><span class="kor">(원티드)</span></span>
+                        <span class="word-item" onclick="speak('started')"><span class="eng">started</span><span class="kor">(스타티드)</span></span>
+                        <span class="word-item" onclick="speak('ended')"><span class="eng">ended</span><span class="kor">(엔디드)</span></span>
+                        <span class="word-item" onclick="speak('rained')"><span class="eng">rained</span><span class="kor">(레인드)</span></span>
                     </div>
                 </td>
             </tr>
+            <!-- 규칙 변화 2 -->
             <tr>
-                <td class="condition-col">[자음 + -e]로<br>끝나는 동사</td>
-                <td class="rule-col">동사원형 + -<span class="red">d</span></td>
-                <td class="example-col">
-                    <div style="line-height: 1.8;">
-                        <span class="speakable" data-word="lived">live<span class="red">d</span></span> &nbsp; 
-                        <span class="speakable" data-word="moved">move<span class="red">d</span></span> &nbsp; 
-                        <span class="speakable" data-word="liked">like<span class="red">d</span></span> &nbsp; 
-                        <span class="speakable" data-word="loved">love<span class="red">d</span></span> &nbsp; 
-                        <span class="speakable" data-word="smiled">smile<span class="red">d</span></span><br>
-                        <span class="speakable" data-word="danced">dance<span class="red">d</span></span> &nbsp; 
-                        <span class="speakable" data-word="invited">invite<span class="red">d</span></span> &nbsp; 
-                        <span class="speakable" data-word="changed">change<span class="red">d</span></span>
+                <td class="col-condition">[자음 + -e]로 끝나는 동사</td>
+                <td class="col-rule">동사원형 + <span class="highlight">-d</span></td>
+                <td colspan="2" class="col-examples">
+                    <div class="word-group">
+                        <span class="word-item" onclick="speak('lived')"><span class="eng">lived</span><span class="kor">(리브드)</span></span>
+                        <span class="word-item" onclick="speak('moved')"><span class="eng">moved</span><span class="kor">(무브드)</span></span>
+                        <span class="word-item" onclick="speak('liked')"><span class="eng">liked</span><span class="kor">(라이크트)</span></span>
+                        <span class="word-item" onclick="speak('loved')"><span class="eng">loved</span><span class="kor">(러브드)</span></span>
+                        <span class="word-item" onclick="speak('smiled')"><span class="eng">smiled</span><span class="kor">(스마일드)</span></span>
+                        <span class="word-item" onclick="speak('danced')"><span class="eng">danced</span><span class="kor">(댄스트)</span></span>
+                        <span class="word-item" onclick="speak('invited')"><span class="eng">invited</span><span class="kor">(인바이티드)</span></span>
+                        <span class="word-item" onclick="speak('changed')"><span class="eng">changed</span><span class="kor">(체인지드)</span></span>
                     </div>
                 </td>
             </tr>
+            <!-- 규칙 변화 3 -->
             <tr>
-                <td class="condition-col">[자음 + -y]로<br>끝나는 동사</td>
-                <td class="rule-col">y를 <span class="red">i</span>로 고치고<br>+ -<span class="red">ed</span></td>
-                <td class="example-col">
-                    <div class="word-grid-col2">
-                        <div><span class="speakable" data-word="cry">cry</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="cried">cr<span class="red">ied</span></span></div>
-                        <div><span class="speakable" data-word="study">study</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="studied">stud<span class="red">ied</span></span></div>
-                        <div><span class="speakable" data-word="try">try</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="tried">tr<span class="red">ied</span></span></div>
-                        <div><span class="speakable" data-word="worry">worry</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="worried">worr<span class="red">ied</span></span></div>
-                    </div>
+                <td class="col-condition">[자음 + -y]로 끝나는 동사</td>
+                <td class="col-rule">y <span class="arrow">→</span> <span class="highlight-blue">i</span>로 고치고<br>+ <span class="highlight">-ed</span></td>
+                <td class="col-examples" style="width: 25%;">
+                    <div class="pair"><span class="word-item" onclick="speak('cry')"><span class="eng">cry</span><span class="kor">(크라이)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('cried')"><span class="eng">cried</span><span class="kor">(크라이드)</span></span></div><br>
+                    <div class="pair"><span class="word-item" onclick="speak('try')"><span class="eng">try</span><span class="kor">(트라이)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('tried')"><span class="eng">tried</span><span class="kor">(트라이드)</span></span></div>
+                </td>
+                <td class="col-examples">
+                    <div class="pair"><span class="word-item" onclick="speak('study')"><span class="eng">study</span><span class="kor">(스터디)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('studied')"><span class="eng">studied</span><span class="kor">(스터디드)</span></span></div><br>
+                    <div class="pair"><span class="word-item" onclick="speak('worry')"><span class="eng">worry</span><span class="kor">(워리)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('worried')"><span class="eng">worried</span><span class="kor">(워리드)</span></span></div>
                 </td>
             </tr>
+            <!-- 규칙 변화 4 -->
             <tr>
-                <td class="condition-col">[단모음 + 단자음]으로<br>끝나는 동사</td>
-                <td class="rule-col">자음은 한 번 더<br>쓰고 + -<span class="red">ed</span></td>
-                <td class="example-col">
-                    <div class="word-grid-col2">
-                        <div><span class="speakable" data-word="stop">stop</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="stopped">stop<span class="red">ped</span></span></div>
-                        <div><span class="speakable" data-word="plan">plan</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="planned">plan<span class="red">ned</span></span></div>
-                        <div><span class="speakable" data-word="chat">chat</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="chatted">chat<span class="red">ted</span></span></div>
-                        <div><span class="speakable" data-word="drop">drop</span> <span class="arrow">&rarr;</span> <span class="speakable" data-word="dropped">drop<span class="red">ped</span></span></div>
-                    </div>
+                <td class="col-condition">[단모음 + 단자음]으로 끝나는 동사</td>
+                <td class="col-rule">자음은 한 번 더 쓰고<br>+ <span class="highlight">-ed</span></td>
+                <td colspan="2" class="col-examples">
+                    <div class="pair"><span class="word-item" onclick="speak('stop')"><span class="eng">stop</span><span class="kor">(스탑)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('stopped')"><span class="eng">stopped</span><span class="kor">(스탑트)</span></span></div>
+                    <div class="pair"><span class="word-item" onclick="speak('plan')"><span class="eng">plan</span><span class="kor">(플랜)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('planned')"><span class="eng">planned</span><span class="kor">(플랜드)</span></span></div><br>
+                    <div class="pair"><span class="word-item" onclick="speak('chat')"><span class="eng">chat</span><span class="kor">(챗)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('chatted')"><span class="eng">chatted</span><span class="kor">(채티드)</span></span></div>
+                    <div class="pair"><span class="word-item" onclick="speak('drop')"><span class="eng">drop</span><span class="kor">(드랍)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('dropped')"><span class="eng">dropped</span><span class="kor">(드랍트)</span></span></div>
                 </td>
             </tr>
 
-            <!-- 불규칙 변화 -->
+            <!-- 불규칙 변화 1 -->
             <tr>
-                <td rowspan="2" class="category-col">불규칙<br>변화</td>
-                <td class="condition-col">현재형과<br>과거형이<br>같은 동사</td>
-                <td colspan="2" class="example-col" style="padding: 10px 12px;">
-                    <div style="display: flex; gap: 48px;">
-                        <div>
-                            <span class="speakable" data-word="put">put</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="put">put</span><br>
-                            <span class="speakable" data-word="hit">hit</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="hit">hit</span>
-                        </div>
-                        <div>
-                            <span class="speakable" data-word="cut">cut</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="cut">cut</span><br>
-                            <span class="speakable" data-word="read">read</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="read">read</span>
-                        </div>
-                    </div>
+                <td rowspan="2" class="col-category">불규칙<br>변화</td>
+                <td class="col-condition">현재형과 과거형이<br>같은 동사</td>
+                <td colspan="3" class="col-examples">
+                    <div class="pair"><span class="word-item" onclick="speak('put')"><span class="eng">put</span><span class="kor">(풋)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('put')"><span class="eng">put</span><span class="kor">(풋)</span></span></div>
+                    <div class="pair" style="margin-left: 15px;"><span class="word-item" onclick="speak('cut')"><span class="eng">cut</span><span class="kor">(컷)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('cut')"><span class="eng">cut</span><span class="kor">(컷)</span></span></div><br>
+                    <div class="pair"><span class="word-item" onclick="speak('hit')"><span class="eng">hit</span><span class="kor">(힛)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('hit')"><span class="eng">hit</span><span class="kor">(힛)</span></span></div>
+                    <div class="pair" style="margin-left: 15px;"><span class="word-item" onclick="speak('read')"><span class="eng">read</span><span class="kor">(리드)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('read')"><span class="eng">read</span><span class="kor">(레드)</span></span></div>
                 </td>
             </tr>
+            <!-- 불규칙 변화 2 -->
             <tr>
-                <td class="condition-col">현재형과<br>과거형이<br>완전히 다른<br>동사</td>
-                <td colspan="2" class="example-col" style="padding: 10px 12px;">
-                    <div class="word-grid-col3">
-                        <div>
-                            <span class="speakable" data-word="do">do</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="did">did</span><br>
-                            <span class="speakable" data-word="go">go</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="went">went</span><br>
-                            <span class="speakable" data-word="eat">eat</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="ate">ate</span><br>
-                            <span class="speakable" data-word="run">run</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="ran">ran</span><br>
-                            <span class="speakable" data-word="meet">meet</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="met">met</span><br>
-                            <span class="speakable" data-word="write">write</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="wrote">wrote</span><br>
-                            <span class="speakable" data-word="bring">bring</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="brought">brought</span>
-                        </div>
-                        <div>
-                            <span class="speakable" data-word="have">have</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="had">had</span><br>
-                            <span class="speakable" data-word="tell">tell</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="told">told</span><br>
-                            <span class="speakable" data-word="get">get</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="got">got</span><br>
-                            <span class="speakable" data-word="see">see</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="saw">saw</span><br>
-                            <span class="speakable" data-word="drink">drink</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="drank">drank</span><br>
-                            <span class="speakable" data-word="give">give</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="gave">gave</span><br>
-                            <span class="speakable" data-word="teach">teach</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="taught">taught</span>
-                        </div>
-                        <div>
-                            <span class="speakable" data-word="come">come</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="came">came</span><br>
-                            <span class="speakable" data-word="sleep">sleep</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="slept">slept</span><br>
-                            <span class="speakable" data-word="speak">speak</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="spoke">spoke</span><br>
-                            <span class="speakable" data-word="make">make</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="made">made</span><br>
-                            <span class="speakable" data-word="take">take</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="took">took</span><br>
-                            <span class="speakable" data-word="hear">hear</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="heard">heard</span><br>
-                            <span class="speakable" data-word="buy">buy</span> <span class="arrow">&rarr;</span> <span class="speakable red" data-word="bought">bought</span>
-                        </div>
-                    </div>
+                <td class="col-condition">현재형과 과거형이<br>완전히 다른 동사</td>
+                <td colspan="3" class="col-examples">
+                    <table style="width:100%; border:none; margin:0;">
+                        <tr style="background:none;">
+                            <td style="border:none; padding: 2px; width: 33%;">
+                                <div class="pair"><span class="word-item" onclick="speak('do')"><span class="eng">do</span><span class="kor">(두)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('did')"><span class="eng">did</span><span class="kor">(디드)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('go')"><span class="eng">go</span><span class="kor">(고)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('went')"><span class="eng">went</span><span class="kor">(웨트)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('eat')"><span class="eng">eat</span><span class="kor">(잇)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('ate')"><span class="eng">ate</span><span class="kor">(에이트)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('run')"><span class="eng">run</span><span class="kor">(런)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('ran')"><span class="eng">ran</span><span class="kor">(랜)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('meet')"><span class="eng">meet</span><span class="kor">(밋)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('met')"><span class="eng">met</span><span class="kor">(멧)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('write')"><span class="eng">write</span><span class="kor">(라이트)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('wrote')"><span class="eng">wrote</span><span class="kor">(로트)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('bring')"><span class="eng">bring</span><span class="kor">(브링)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('brought')"><span class="eng">brought</span><span class="kor">(브로트)</span></span></div>
+                            </td>
+                            <td style="border:none; padding: 2px; width: 33%;">
+                                <div class="pair"><span class="word-item" onclick="speak('have')"><span class="eng">have</span><span class="kor">(해브)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('had')"><span class="eng">had</span><span class="kor">(해드)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('tell')"><span class="eng">tell</span><span class="kor">(텔)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('told')"><span class="eng">told</span><span class="kor">(톨드)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('get')"><span class="eng">get</span><span class="kor">(겟)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('got')"><span class="eng">got</span><span class="kor">(갓)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('see')"><span class="eng">see</span><span class="kor">(시)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('saw')"><span class="eng">saw</span><span class="kor">(쏘)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('drink')"><span class="eng">drink</span><span class="kor">(드링크)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('drank')"><span class="eng">drank</span><span class="kor">(드랭크)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('give')"><span class="eng">give</span><span class="kor">(기브)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('gave')"><span class="eng">gave</span><span class="kor">(게이브)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('teach')"><span class="eng">teach</span><span class="kor">(티치)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('taught')"><span class="eng">taught</span><span class="kor">(토트)</span></span></div>
+                            </td>
+                            <td style="border:none; padding: 2px; width: 34%;">
+                                <div class="pair"><span class="word-item" onclick="speak('come')"><span class="eng">come</span><span class="kor">(컴)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('came')"><span class="eng">came</span><span class="kor">(케이무)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('sleep')"><span class="eng">sleep</span><span class="kor">(슬립)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('slept')"><span class="eng">slept</span><span class="kor">(슬렙트)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('speak')"><span class="eng">speak</span><span class="kor">(스피크)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('spoke')"><span class="eng">spoke</span><span class="kor">(스포크)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('make')"><span class="eng">make</span><span class="kor">(메이크)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('made')"><span class="eng">made</span><span class="kor">(메이드)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('take')"><span class="eng">take</span><span class="kor">(테이크)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('took')"><span class="eng">took</span><span class="kor">(툭)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('hear')"><span class="eng">hear</span><span class="kor">(히어)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('heard')"><span class="eng">heard</span><span class="kor">(허드)</span></span></div><br>
+                                <div class="pair"><span class="word-item" onclick="speak('buy')"><span class="eng">buy</span><span class="kor">(바이)</span></span> <span class="arrow">→</span> <span class="word-item" onclick="speak('bought')"><span class="eng">bought</span><span class="kor">(보트)</span></span></div>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </tbody>
     </table>
+
+    <button class="btn-print" onclick="window.print()">🖨️ 인쇄하기 / PDF 저장</button>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const synth = window.speechSynthesis;
-        let voices = [];
-
-        // 사용 가능한 Voice 목록 받아오기
-        function loadVoices() {
-            voices = synth.getVoices().filter(v => v.lang.includes('en'));
-        }
-
-        loadVoices();
-        if (speechSynthesis.onvoiceschanged !== undefined) {
-            speechSynthesis.onvoiceschanged = loadVoices;
-        }
-
-        // 단어 발음 재생 함수
-        function speakWord(text, element) {
-            if (!('speechSynthesis' in window)) {
-                alert('현재 브라우저가 음성 재생(Speech Synthesis)을 지원하지 않습니다.');
-                return;
-            }
-
-            // 이전 음성 중단
-            synth.cancel();
-
-            // 활성 하이라이트 클래스 제거
-            document.querySelectorAll('.speakable.playing').forEach(el => {
-                el.classList.remove('playing');
-            });
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
 
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'en-US';
-            utterance.rate = 0.85; // 조금 또박또박하게 발음
+            utterance.rate = 0.85;
 
-            // 선호 보이스 지정 (US / GB)
-            if (voices.length > 0) {
-                const usVoice = voices.find(v => v.lang === 'en-US') || voices[0];
-                utterance.voice = usVoice;
+            const targetElement = event.currentTarget;
+            if (targetElement) {
+                targetElement.classList.add('speaking');
+                utterance.onend = function() {
+                    targetElement.classList.remove('speaking');
+                };
+                utterance.onerror = function() {
+                    targetElement.classList.remove('speaking');
+                };
             }
 
-            // 시각적 피드백 시작
-            element.classList.add('playing');
-
-            // 음성 종료 시 시각적 피드백 제거
-            utterance.onend = () => {
-                element.classList.remove('playing');
-            };
-
-            utterance.onerror = () => {
-                element.classList.remove('playing');
-            };
-
-            synth.speak(utterance);
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert('이 브라우저는 음성 재생(TTS) 기능을 지원하지 않습니다.');
         }
-
-        // 모든 클릭 가능 단어에 이벤트 리스너 등록
-        const speakableElements = document.querySelectorAll('.speakable');
-        speakableElements.forEach(el => {
-            el.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const word = el.getAttribute('data-word') || el.innerText.trim();
-                speakWord(word, el);
-            });
-        });
-    });
+    }
 </script>
 
 </body>
